@@ -11,7 +11,7 @@ class dashboardView extends Component{
 	render(){
 		return(
 			<View>
-				<Text>Soy el componente Dashboard</Text>
+				<Text style={{ color:'#000', marginTop:150}}>Soy el componente Dashboard</Text>
 			</View>
 		);
 	}

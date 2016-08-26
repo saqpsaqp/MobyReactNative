@@ -9,45 +9,77 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Navigator,
+  TouchableHighlight
 } from 'react-native';
 
+var NavigatorBarRouterMapper = {
+  LeftButton: (route, navigator, index, navState) =>
+  { 
+    if(route.name == 'Login')
+      return null;
+    return (
+      <TouchableHighlight onPress={()=>{
+        if(index>0){
+          navigator.pop();
+        }
+      }}>
+        <Text style={{marginTop:10,marginLeft:20,color: '#007aff'}}>Atrás</Text>
+      </TouchableHighlight>
+    ); },
+  RightButton: (route, navigator, index, navState) =>
+  { return (null); },
+  Title: (route, navigator, index, navState) =>
+  { 
+    if(route.name == 'Login')
+      return null;
+    return (<Text style={{marginTop:10,color: '#007aff'}}>{route.name}</Text>); },
+}
+
 const Login = require('./src/components/loginView');
-const DB = require('./src/components/dashboardView');
+const Dashboard = require('./src/components/dashboardView');
 
 
 class MobyReactNative extends Component {
-  render() {  //devuelve el codigo de la vista
+
+  renderScene(route, navigator) {
+    switch (route.name) {
+      case 'Login':
+        return (<Login navigator={navigator} route={route}></Login>)
+      case 'Dashboard':
+        return (<Dashboard navigator={navigator} route={route}></Dashboard>)
+    }
+  }
+
+  render() {
+    const routes = [
+      { name: 'Login', index: 0 },
+      { name: 'Dashboard', index: 1 },
+    ];
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Hello World MobyLearning!
-        </Text>
-        <Login></Login>
-        <DB></DB>
-        
-      </View>
+      <Navigator
+        initialRoute={routes[0]}
+        initialRouteStack={routes}
+        renderScene={this.renderScene}
+        navigationBar={
+          <Navigator.NavigationBar
+            routeMapper={NavigatorBarRouterMapper}
+            style={{ backgroundColor: 'gray' }}
+            />
+        }
+        style={{ }}
+        configureScene={(route)=>{
+          if(route.sceneConfig){
+            return route.sceneConfig;
+          }
+          return Navigator.SceneConfigs.FloatFromRight
+        }}
+        />
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+const styles = StyleSheet.create({});
 
 AppRegistry.registerComponent('MobyReactNative', () => MobyReactNative);
