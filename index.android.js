@@ -12,20 +12,20 @@ import {
   View
 } from 'react-native';
 
+const Login = require('./src/components/loginView');
+const DB = require('./src/components/dashboardView');
+
+
 class MobyReactNative extends Component {
-  render() {
+  render() {  //devuelve el codigo de la vista
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Hello World MobyLearning!
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+        <Login></Login>
+        <DB></DB>
+        
       </View>
     );
   }
